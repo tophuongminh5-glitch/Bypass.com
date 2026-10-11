@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FPS Unlocker Pro</title>
+    
+    <!-- Cấu hình để chạy như App độc lập khi thêm vào màn hình chính -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="FPS Unlock">
+    <meta name="mobile-web-app-capable" content="yes">
+    
+    <!-- Tạo một file cấu hình ứng dụng ảo (Manifest) trực tiếp bằng mã hóa data -->
+    <link rel="manifest" href="data:application/json;base64,ewogICJuYW1lIjogIkZQUyBVbmxvY2tlciBQcm8iLAogICJzaG9ydF9uYW1lIjogIkZQUyBVbmxvY2siLAogICJzdGFydF91cmwiOiAiLiIsCiAgImRpc3BsYXkiOiAic3RhbmRhbG9uZSIsCiAgImJhY2tncm91bmRfY29sb3IiOiAiIzBhMGYwZCIsCiAgInRoZW1lX2NvbG9yIjogIzBhMGYwZCIKfQ==">
+
+    <style>
+        :root {
+            --primary: #00ff66;
+            --bg-dark: #0a0f0d;
+            --panel-bg: #111a16;
+            --text-gray: #889988;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: #ffffff;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            overflow-x: hidden;
+            padding: 15px;
+            box-sizing: border-box;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 500px;
+            background: var(--panel-bg);
+            border: 1px solid var(--primary);
+            border-radius: 8px;
+            padding: 25px;
+            box-shadow: 0 0 20px rgba(0, 255, 102, 0.2);
+            box-sizing: border-box;
+        }
+
+        h2 {
+            color: var(--primary);
+            text-align: center;
+            margin-top: 0;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 0 0 10px rgba(0, 255, 102, 0.5);
+            font-size: 22px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: var(--text-gray);
+            font-size: 14px;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 12px;
+            background: #050806;
+            border: 1px solid #224422;
+            color: #fff;
+            border-radius: 4px;
+            box-sizing: border-box;
+            font-size: 15px;
+            transition: all 0.3s;
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 8px rgba(0, 255, 102, 0.3);
+        }
+
+        .btn-run {
+            width: 100%;
+            padding: 14px;
+            background: transparent;
+            border: 1px solid var(--primary);
+            color: var(--primary);
+            font-weight: bold;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 4px;
+            text-transform: uppercase;
+            transition: all 0.3s;
+            margin-top: 10px;
+        }
+
+        .btn-run:hover {
+            background: var(--primary);
+            color: #000;
+            box-shadow: 0 0 15px var(--primary);
+        }
+
+        /* Vùng chạy mã hack chữ xanh */
+        .terminal {
+            margin-top: 20px;
+            background: #000;
+            border: 1px solid #223322;
+            height: 220px;
+            border-radius: 4px;
+            padding: 12px;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 13px;
+            color: var(--primary);
+            overflow-y: auto;
+            white-space: pre-wrap;
+            display: none;
+        }
+
+        /* Thông báo thành công */
+        .success-msg {
+            display: none;
+            margin-top: 15px;
+            background: rgba(0, 255, 102, 0.1);
+            border: 1px solid var(--primary);
+            color: var(--primary);
+            padding: 12px;
+            text-align: center;
+            font-weight: bold;
+            border-radius: 4px;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 0.7; }
+            50% { opacity: 1; }
+            100% { opacity: 0.7; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>FPS BYPASS</h2>
+    
+    <div class="form-group">
+        <label for="fpsSelect">Chọn mức FPS muốn mở khóa:</label>
+        <select id="fpsSelect">
+            <option value="60">60 FPS</option>
+            <option value="90">90 FPS</option>
+            <option value="120">120 FPS</option>
+            <option value="240">MAX</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label for="serialInput">Nhập Serial máy:</label>
+        <input type="text" id="serialInput" placeholder="Ví dụ: SN-9X82-LL/A" required>
+    </div>
+
+    <div class="form-group">
+        <label for="idInput">Số máy:</label>
+        <input type="text" id="idInput" placeholder="Ví dụ: DESKTOP-78F9G2" required>
+    </div>
+
+    <button class="btn-run" id="runBtn" onclick="startBypass()">KÍCH HOẠT RUN</button>
+
+    <!-- Khu vực chạy code xanh -->
+    <div class="terminal" id="terminalLog"></div>
+
+    <!-- Thông báo thành công -->
+    <div class="success-msg" id="successBox">
+        ✓ UNLOCKED SUCCESSFUL! RESTART GAME NOW.
+    </div>
+</div>
+
+<script>
+function startBypass() {
+    const fps = document.getElementById('fpsSelect').value;
+    const serial = document.getElementById('serialInput').value.trim();
+    const deviceId = document.getElementById('idInput').value.trim();
+    
+    if(!serial || !deviceId) {
+        alert('Vui lòng nhập đầy đủ Serial và Mã máy!');
+        return;
+    }
+
+    const runBtn = document.getElementById('runBtn');
+    const terminal = document.getElementById('terminalLog');
+    const successBox = document.getElementById('successBox');
+
+    runBtn.disabled = true;
+    runBtn.innerText = "PROCESSING...";
+    successBox.style.display = "none";
+    terminal.style.display = "block";
+    terminal.innerHTML = "";
+
+    const logs = [
+        `[INFO] Connecting to secure core server... SUCCESS`,
+        `[INFO] Scanning hardware components for device: ${deviceId}`,
+        `[INFO] Validating serial authorization key: ${serial} -> ACCEPTED`,
+        `[SYSTEM] Searching for device configuration tables...`,
+        `[SYSTEM] Found configuration target: UserCustom.ini / Gst.Render.FPS...`,
+        `[HACK] Injecting refresh rate limit bypass module...`,
+        `[PATCH] Overriding hardware safe locks (60fps limit) -> Target: ${fps}fps`,
+        `[INJECT] Allocating temporary heap memory at block 0x7FFF01A2...`,
+        `[CODE] void UnlockFPS() { SetMaxFPS(${fps}); Registry.Write("FPS_Limit", ${fps}); }`,
+        `[CODE] if (Device.Status == LOCKED) { Bypass.Security.Trigger(); }`,
+        `[CODE] ASM_OVERRIDE: MOV EAX, ${fps} | PUSH EAX | CALL Override_FPS`,
+        `[HACK] Cleaning anti-cheat local memory cache vectors...`,
+        `[HACK] Disabling V-Sync system check protocols...`,
+        `[PATCH] Overwriting values: Render_Target_FrameRate = ${fps}`,
+        `[SYSTEM] Saving environment changes and flushing buffer...`,
+        `[INFO] Synchronizing hardware configuration profiles...`
+    ];
+
+    let index = 0;
+
+    const interval = setInterval(() => {
+        if (index < logs.length) {
+            terminal.innerHTML += logs[index] + "\n";
+            terminal.scrollTop = terminal.scrollHeight;
+            index++;
+        } else {
+            clearInterval(interval);
+            successBox.innerHTML = `✓ UNLOCKED ${fps} FPS SUCCESSFUL!<br>Đã bẻ khóa thành công cho thiết bị ${deviceId}.`;
+            successBox.style.display = "block";
+            runBtn.disabled = false;
+            runBtn.innerText = "KÍCH HOẠT RUN";
+        }
+    }, 180); // Đẩy tốc độ nhanh lên một chút (180ms)
+}
+</script>
+
+</body>
+</html>
